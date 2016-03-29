@@ -29,6 +29,7 @@ public class ArithmeticExpressions {
 		double rootFive;
 		
 		
+		
 		//Input
 		System.out.println("Enter the first number");
 		numOne = Integer.parseInt(myInput.nextLine());
