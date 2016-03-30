@@ -13,17 +13,15 @@ public class DiceGame {
 
 		Scanner myInput = new Scanner(System.in); 
 		
-		//Let the user know what's happening 
-		System.out.println("This is a dice game! Me vs. You! Lets play!");
 		
 		//variables
+		boolean reroll = true; 
 		String answer;
-		boolean reroll = false; 
 		//while
 		while (reroll){ 
 		int dieOne = (int)(Math.random() * 6) + 1;
 		int dieTwo = (int)(Math.random() * 6) + 1;
-		
+	
 		
 		//Processing
 		if (dieOne > dieTwo){
