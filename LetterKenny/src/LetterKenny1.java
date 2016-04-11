@@ -9,29 +9,31 @@ import hsa_new.Console;
 
 public class LetterKenny1 {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 	
 		
 		//Variables
-		java.io.Console c = new Console();
+		Console c = new Console();
 		String answer;
 		String response;
 		String reply;
 		String answer2;
+		String response2;
 		
 		//Output
 		c.println("The phone rings. It's Sanchez. ''Okay don't come down the laneway.''");
 		c.println("Sanchez walks up to you. Do you swing frist? Texas sized 10.4 or Hard no?");
 		answer = c.readLine();
+		c.readLine();
 		
-		if(answer.equalsIgnoreCase("Texas sized 10.4")){
 		for (int i=0; i< 3; i++){
-			c.println("Do you want to swing left hook or right?");
+			if(answer.equalsIgnoreCase("Texas sized 10.4")){
+				c.println("Do you want to swing left hook or right?");
+				response2 = c.readLine();
+			} else if (answer.equalsIgnoreCase("Hard No")){
+				c.println("Buddy you're softer than a tootsie roll fruit cup.");
+			}
 		}
-		} else  if (answer.equalsIgnoreCase("Hard No")){
-			c.println("Buddy you're softer than a tootsie roll fruit cup.");
-		}
-		
 		//The fight with Sanchez. 55% chance you win 45% chance you lose.
 		int sanchezFight = (int)(Math.random() * 100) + 1;	
 		if (sanchezFight <= 45){
@@ -64,7 +66,7 @@ public class LetterKenny1 {
 		if(reply.equalsIgnoreCase("Hard no")){
 			c.println("You leave the bar. After you leave you get attacked by a pack of the yellow eyed buggers, A.K.A cyotes, and you die.");
 			Thread.sleep(2000);
-			c.close()
+			c.close();
 		}else{
 			c.println("Max the dog walks in looking for you...");
 		}
