@@ -1,4 +1,4 @@
-
+//Have Fun
 import java.awt.image.BufferedImage;
 import sun.audio.*;
 import java.io.IOException;
