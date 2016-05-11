@@ -9,8 +9,10 @@ public class DiceSimulator {
 
 	public static void main(String[] args) {
 
+		//array for sums
 		String [] rolled = new String[]{"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
 		
+		array
 		int [] times = new int[11];
 		
 		for (int i = 0; i<10000; i++){
