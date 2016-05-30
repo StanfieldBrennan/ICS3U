@@ -14,7 +14,7 @@ public class FunWithMath2 {
 	public static DecimalFormat decimal = new DecimalFormat("0.00");
 
 	/**
-	 * askes the user for 2 numbers, displays the results of the methods
+	 * asks the user for 2 numbers, displays the results of the methods
 	 * 
 	 * @param args
 	 *            - not used
