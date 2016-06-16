@@ -52,6 +52,9 @@ public class TournamentPlanner {
 			System.out.print(matchups[0][i] + " ");
 			System.out.println(matchups[1][i]);
 		}
+		
+		//prints schedule
+		match(matchups); 
 
 	}
 
@@ -87,14 +90,15 @@ public class TournamentPlanner {
 	}
 
 	// Method to return the other team in every match up
-	public static int nextMatch(String[][] matchups, ArrayList<String> teams, int start){
+	public static int nextMatch(String[][] matchups, ArrayList<String> teams, int start) {
 
 		for (int i = start; i < matchups[0].length; i++) {
-			if (teams.get(i) == matchups[0][i] || teams.get(i) == matchups[0][i] || teams.get(i) == matchups[1][i]
-					|| teams.get(i) == matchups[1][i]) {
+			for (int j = 0; j < teams.size(); j++) {
+				if (teams.get(j) == matchups[0][i] || teams.get(j) == matchups[0][i]) {
 
-			} else {
-				return i;
+				} else {
+					return i;
+				}
 			}
 		}
 
@@ -102,13 +106,18 @@ public class TournamentPlanner {
 	}
 
 	// Method to organize who plays when
-	public static int match(String [][] matchups){
+	public static ArrayList<Integer> match(String [][] matchups){
 		ArrayList<String> teamsChosen = new ArrayList<String>();
 		int matchChosen = 0; 
-		
+		ArrayList<Integer> gamesChosen = new ArrayList<Integer>();
+		while (matchChosen != -1){
+			gamesChosen.add(matchChosen);
 		teamsChosen.add(matchups[0][matchChosen]);
 		teamsChosen.add(matchups[1][matchChosen]);
 		
-		return //i don't know what to return :)
+		matchChosen = nextMatch(matchups, teamsChosen, matchChosen); 
+		}
+		
+		return gamesChosen; 
 	}
 }
