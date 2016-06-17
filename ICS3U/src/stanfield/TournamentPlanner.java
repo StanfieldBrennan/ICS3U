@@ -10,18 +10,20 @@ import java.util.Scanner;
 
 public class TournamentPlanner {
 
-	public static int amountTeams;
+	//public static int amountTeams;
 
 	public static void main(String[] args) {
 
 		Scanner scan = new Scanner(System.in);
+		int amountTeams = 0;
 
 		// do while to make sure that the number of teams participating is even
 		boolean error = false;
+
 		do {
 			// asks user how many teams will be participating
 			System.out.println("How many teams are in the round robin? Please ensure it is an even number.");
-
+			//makes sure it a number and not letter
 			try {
 				amountTeams = amountTeams / 2;
 				amountTeams = Integer.parseInt(scan.nextLine());
@@ -29,6 +31,7 @@ public class TournamentPlanner {
 			} catch (NumberFormatException e) {
 				error = true;
 			}
+
 
 		} while (!isDivisible(amountTeams, 2) || error == true);
 
@@ -42,19 +45,35 @@ public class TournamentPlanner {
 			teamNames[i] = scan.nextLine();
 		}
 
+		int numOfMatches = calculation(amountTeams);
 		// out puts how many matches will be needed
-		System.out.println("You will need " + calculation(amountTeams) + " matches.");
+		System.out.println("You will need " + numOfMatches + " matches.");
 
 		// prints the match ups of teams
-		String[][] matchups = matchUps(teamNames);
+		String[][] matchups = matchUps(teamNames, amountTeams);
 
 		for (int i = 0; i < matchups[0].length; i++) {
 			System.out.print(matchups[0][i] + " ");
 			System.out.println(matchups[1][i]);
 		}
+
+		System.out.println("The match schedule goes as follows:");
 		
-		//prints schedule
-		match(matchups); 
+		int totalMatchesInRound = amountTeams/2;
+		int numOfRounds = numOfMatches/totalMatchesInRound;
+		
+		//prints schedule... doesn't work
+		ArrayList<Integer> schedule = match(matchups,totalMatchesInRound, numOfRounds);
+		int count = 0;
+		
+		for (int round = 1; round <= numOfRounds; round++){
+			System.out.println("Round " + round);
+			for (int match = 1; match <= totalMatchesInRound; match++){
+				System.out.print(matchups[0][schedule.get(count)] + " ");
+				System.out.println(matchups[1][schedule.get(count)]);
+				count++;
+			}
+		}
 
 	}
 
@@ -75,7 +94,7 @@ public class TournamentPlanner {
 	}
 
 	// Method to figure out who plays who
-	public static String[][] matchUps(String[] teamNames) {
+	public static String[][] matchUps(String[] teamNames, int amountTeams) {
 		int counter = 0;
 		String[][] schedule = new String[2][calculation(amountTeams)];
 		for (int i = 0; i < amountTeams; i++) {
@@ -92,32 +111,73 @@ public class TournamentPlanner {
 	// Method to return the other team in every match up
 	public static int nextMatch(String[][] matchups, ArrayList<String> teams, int start) {
 
+		boolean found = false;
 		for (int i = start; i < matchups[0].length; i++) {
 			for (int j = 0; j < teams.size(); j++) {
-				if (teams.get(j) == matchups[0][i] || teams.get(j) == matchups[0][i]) {
-
-				} else {
-					return i;
-				}
+				if (teams.get(j) == matchups[0][i] || teams.get(j) == matchups[1][i]) {
+					found = true;
+				} 
 			}
+			if (!found) return i;
+			else found = false;
 		}
 
 		return -1;
 	}
 
 	// Method to organize who plays when
-	public static ArrayList<Integer> match(String [][] matchups){
+	public static ArrayList<Integer> match(String [][] matchups, int totalMatchesInRound, int numOfRounds){
 		ArrayList<String> teamsChosen = new ArrayList<String>();
-		int matchChosen = 0; 
 		ArrayList<Integer> gamesChosen = new ArrayList<Integer>();
-		while (matchChosen != -1){
-			gamesChosen.add(matchChosen);
-		teamsChosen.add(matchups[0][matchChosen]);
-		teamsChosen.add(matchups[1][matchChosen]);
+
 		
-		matchChosen = nextMatch(matchups, teamsChosen, matchChosen); 
+		for (int matchChosen = 0; matchChosen < numOfRounds; matchChosen++){ 
+			int trackMatches=matchChosen;
+			teamsChosen.clear();
+			boolean track = false;
+			int matchesInRound = 0;
+			
+			gamesChosen.add(trackMatches);
+			teamsChosen.add(matchups[0][trackMatches]);
+			teamsChosen.add(matchups[1][trackMatches]);
+			matchesInRound++;
+			
+			//look for next matches
+			while (trackMatches != -1 && matchesInRound < totalMatchesInRound){
+				trackMatches = nextMatch(matchups, teamsChosen, trackMatches);
+				
+
+				if (trackMatches == -1 && matchesInRound < totalMatchesInRound){
+					trackMatches = gamesChosen.remove(gamesChosen.size()-1);
+					teamsChosen.remove(teamsChosen.size()-1);
+					teamsChosen.remove(teamsChosen.size()-1);
+					matchesInRound--;
+					trackMatches++;
+					trackMatches = nextMatch(matchups, teamsChosen, trackMatches);
+				}
+				
+				for(int i = 0; i < gamesChosen.size(); i++){
+					if (trackMatches == gamesChosen.get(i)){
+						track = true;
+					}
+				}
+				
+
+				if(!track){
+					gamesChosen.add(trackMatches);
+					teamsChosen.add(matchups[0][trackMatches]);
+					teamsChosen.add(matchups[1][trackMatches]);
+					matchesInRound++;
+				}
+				else{
+					trackMatches++;
+				}
+				
+				track = false;				
+
+			}
 		}
-		
+
 		return gamesChosen; 
 	}
 }
