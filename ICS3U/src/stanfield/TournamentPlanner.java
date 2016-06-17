@@ -33,7 +33,7 @@ public class TournamentPlanner {
 			}
 
 
-		} while (!isDivisible(amountTeams, 2) || error == true);
+		} while (!isDivisible(amountTeams, 2) || error == true || amountTeams <= 0);
 
 		// string to hold team names
 		String[] teamNames = new String[amountTeams];
